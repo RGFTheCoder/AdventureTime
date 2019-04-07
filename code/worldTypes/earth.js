@@ -21,9 +21,20 @@ export default {
     },
     z: 0,
     sudo(util) {},
-    structures: [
-        function(util){
-            
+    structures: [{
+        rarity: 1 / 16,
+        function (util) {
+            let working = util.getTilesEuclidean(7, util.genTile.drleft.drleft.drleft.drup.drup.drup);
+            for (let x = 0; x < working.length; x++) {
+                for (let y = 0; y < working[x].length; y++) {
+                    let workingTile = working[x][y];
+                    
+                    workingTile.color = "#000000";
+                    workingTile.type = "Wood Wall";
+                }
+            }
+
+            // console.log(working);
         }
-    ]
+    }]
 };

@@ -1,15 +1,9 @@
-import {
-    o,
-    html,
-    drawTileEuclidean,
-    getTilesEuclidean
-} from "./utils";
-import Tile from "./Tile";
-import {
-    makeEarthMap,
-    makeHellMap,
-    makeGenMap
-} from "./worldGen";
+import "../lib/typedarray";
+import { getTilesEuclidean, html, o } from "./utils";
+import { makeGenMap, setNoiseMode } from "./worldGen";
+
+setNoiseMode("loop");
+window.debugMode = false;
 
 new p5(function (sketch) {
 

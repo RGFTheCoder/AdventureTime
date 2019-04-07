@@ -26,5 +26,11 @@ export default {
         }
     },
     z: 1,
-    sudo(util) {}
+    sudo(util) {},
+    structures: [{
+        rarity: 0,
+        function (util) {
+            console.log(util);
+        }
+    }]
 };
