@@ -34,62 +34,6 @@ export function makeBlankMap(size) {
     return tempBuffer;
 }
 
-export function makeEarthMap(size) {
-    size = size || 16;
-
-    let tempBuffer = makeBlankMap(size);
-
-    for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size; y++) {
-            let ns = noise.noise3d(x / 8, y / 8, 0) / 2 + 0.5;
-            if (ns > 0.9) {
-                tempBuffer[x][y].type = "❤️|Desert";
-                tempBuffer[x][y].color = "#edc9af";
-            } else if (ns > 0.8) {
-                tempBuffer[x][y].type = "🌲|Forest";
-                tempBuffer[x][y].color = "#0e4d26";
-            } else if (ns > 0.6) {
-                tempBuffer[x][y].type = "🏖️|Beach";
-                tempBuffer[x][y].color = "#f9cda8";
-            }
-            let temprand = Math.random();
-            if (temprand > 0.9) {
-                tempBuffer[x][y].special = "💎|Treasure";
-                tempBuffer[x][y].scolor = "#DAA520";
-            }
-        }
-    }
-
-    return tempBuffer[0][0];
-}
-
-export function makeHellMap(size) {
-    size = size || 16;
-
-    let tempBuffer = makeBlankMap(size);
-
-    for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size; y++) {
-            let ns = noise.noise3d(x / 8, y / 8, 1) + 0.5;
-            if (ns > 0.9) {
-                tempBuffer[x][y].type = "❤️|Hellcore";
-                tempBuffer[x][y].color = "#4e0100";
-            } else if (ns > 0.8) {
-                tempBuffer[x][y].type = "❤️|Netherrack";
-                tempBuffer[x][y].color = "#810200";
-            } else if (ns > 0.6) {
-                tempBuffer[x][y].type = "❤️|Sand";
-                tempBuffer[x][y].color = "#5e140d";
-            } else {
-                tempBuffer[x][y].type = "❤️|Lava";
-                tempBuffer[x][y].color = "#ff4500";
-            }
-        }
-    }
-
-    return tempBuffer[0][0];
-}
-
 export function makeGenMap(size, generator) {
     size = size || 16;
     let gen = generators[generator];
