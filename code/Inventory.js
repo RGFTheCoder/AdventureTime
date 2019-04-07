@@ -1,11 +1,10 @@
+import Item from "./Item";
+
 export default function Inventory(size) {
     let data = [];
     for (let i = 0; i < size; i++) {
-        data[i] = {
-            onUse() {},
-            empty: true,
-            color: "#cccccc"
-        };
+        data[i] = new Item();
+        data[i].empty = true;
     }
     this.__proto__ = {
         getItems() {
@@ -19,11 +18,15 @@ export default function Inventory(size) {
             return out;
         },
         getItem(id) {
-            let out = {};
-            for (let j in data[id]) {
-                out[j] = data[id][j];
-            }
-            return out;
+            return data[(id + size) % size];
+        },
+        setItem(id, newItem) {
+            data[(id + size) % size] = newItem;
+        },
+        swapItem(id, newItem) {
+            let old = data[(id + size) % size];
+            data[(id + size) % size] = newItem;
+            return old;
         },
         addItem(item) {
             let i = 0;

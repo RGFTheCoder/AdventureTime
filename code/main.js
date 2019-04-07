@@ -9,6 +9,7 @@ import {
     setNoiseMode
 } from "./worldGen";
 import Player from "./Player";
+import Item from "./Item";
 
 setNoiseMode("loop");
 window.debugMode = false;
@@ -18,12 +19,6 @@ new p5(function (sketch) {
     let currentTile,
         currentSpecial,
         currentBiome,
-        // radar,
-        // mapWorld,
-        upButton,
-        downButton,
-        leftButton,
-        rightButton,
         player,
         invx = 0,
         invy = 0;
@@ -67,33 +62,16 @@ new p5(function (sketch) {
         //dom
         currentSpecial = html `<h1>Nothing</h1>`;
         currentBiome = html `<h1>Ocean</h1>`;
-        // radar = html `<pre style="font-size: 5ch;"></pre>`;
 
-        // mapWorld = html `<pre style="font-size: 5ch;"></pre>`;
-
-        upButton = html `<button>Up</button>`;
-        downButton = html `<button>Down</button>`;
-        leftButton = html `<button>Left</button>`;
-        rightButton = html `<button>Right</button>`;
-        upButton.onclick = function () {
-            currentTile = currentTile.up;
-        }
-        downButton.onclick = function () {
-            currentTile = currentTile.down;
-        }
-        leftButton.onclick = function () {
-            currentTile = currentTile.left;
-        }
-        rightButton.onclick = function () {
-            currentTile = currentTile.right;
-        }
     }
 
     let mvCool = 0;
-    let invMvCool = 0;
+    let invMvCool = 0,
+        invSel = new Item("#cccccc");
+    invSel.empty = true;
 
     sketch.draw = function () {
-        currentSpecial.textContent = currentTile.special;
+        currentSpecial.textContent = currentTile.special[0] ? currentTile.special[0].special : "Nothing";
         currentBiome.textContent = currentTile.type;
         // radar.textContent = currentTile.toStringSpe();
         // mapWorld.textContent = drawTileEuclidean(7, currentTile.left.left.left.up.up.up);
@@ -107,21 +85,41 @@ new p5(function (sketch) {
             if (sketch.keyIsDown(65)) {
                 currentTile = currentTile.left;
                 mvCool = 1;
+                for (let i = 0; i < currentTile.special.length; i++) {
+                    currentTile.special[i].onWalk({
+                        player
+                    });
+                }
             }
 
             if (sketch.keyIsDown(68)) {
                 currentTile = currentTile.right;
                 mvCool = 1;
+                for (let i = 0; i < currentTile.special.length; i++) {
+                    currentTile.special[i].onWalk({
+                        player
+                    });
+                }
             }
 
             if (sketch.keyIsDown(87)) {
                 currentTile = currentTile.up;
                 mvCool = 1;
+                for (let i = 0; i < currentTile.special.length; i++) {
+                    currentTile.special[i].onWalk({
+                        player
+                    });
+                }
             }
 
             if (sketch.keyIsDown(83)) {
                 currentTile = currentTile.down;
                 mvCool = 1;
+                for (let i = 0; i < currentTile.special.length; i++) {
+                    currentTile.special[i].onWalk({
+                        player
+                    });
+                }
             }
         } else {
             mvCool -= 0.1
@@ -156,9 +154,15 @@ new p5(function (sketch) {
         if (sketch.keyIsDown(32)) {
             while (currentTile.special.length > 0) {
                 let currentFiend = currentTile.special.pop();
-                currentFiend.onWalk({
+                currentFiend.onUse({
                     player
                 });
+            }
+        }
+        if (invMvCool < 0) {
+            if (sketch.keyIsDown(80)) {
+                invSel = player.inventory.swapItem(invx + invy * 11, invSel);
+                invMvCool = 1;
             }
         }
 

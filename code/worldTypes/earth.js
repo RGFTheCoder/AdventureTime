@@ -1,28 +1,41 @@
+import Item from "../Item";
+
 export default {
     type: {
         0.7: {
-            type: "❤️|Desert",
+            type: "Desert",
             color: "#edc9af"
         },
         0.65: {
-            type: "🌲|Forest",
+            type: "Forest",
             color: "#0e4d26",
         },
         0.55: {
-            type: "🏖️|Beach",
+            type: "Beach",
             color: "#f9cda8",
         }
     },
     special: {
         0.95: {
-            special: "💎|Treasure",
+            special: "Treasure",
             color: "#DAA520",
+            onWalk(utils) {},
+            onUse(utils) {
+                let item = new Item();
+                item.color = "#ff0000";
+                utils.player.inventory.addItem(item);
+            },
+        },
+        0.90: {
+            special: "Enemy",
+            color: "#CA4520",
             onWalk(utils) {
-                utils.player.inventory.addItem({
-                    onUse() {},
-                    empty: false,
-                    color: "#ff0000"
-                });
+                let item = new Item();
+                item.color = "#ff0000";
+                utils.player.inventory.addItem(item);
+            },
+            onUse(utils) {
+
             },
         }
     },
