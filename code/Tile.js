@@ -1,9 +1,8 @@
 export default class Tile {
     constructor() {
-        this.type = "🌊|Ocean";
-        this.special = "🔲|Nothing";
+        this.type = "Ocean";
+        this.special = [];
         this.color = "#3355E4";
-        this.scolor = "#00000000";
         this.up = null;
         this.down = null;
         this.left = null;

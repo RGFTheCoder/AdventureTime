@@ -1,6 +1,13 @@
 import "../lib/typedarray";
-import { getTilesEuclidean, html, o } from "./utils";
-import { makeGenMap, setNoiseMode } from "./worldGen";
+import {
+    getTilesEuclidean,
+    html,
+    o
+} from "./utils";
+import {
+    makeGenMap,
+    setNoiseMode
+} from "./worldGen";
 
 setNoiseMode("loop");
 window.debugMode = false;
@@ -92,40 +99,45 @@ new p5(function (sketch) {
         if (mvCool < 0) {
             if (sketch.keyIsDown(sketch.LEFT_ARROW)) {
                 currentTile = currentTile.left;
-                mvCool=1;
+                mvCool = 1;
             }
 
             if (sketch.keyIsDown(sketch.RIGHT_ARROW)) {
                 currentTile = currentTile.right;
-                mvCool=1;
+                mvCool = 1;
             }
 
             if (sketch.keyIsDown(sketch.UP_ARROW)) {
                 currentTile = currentTile.up;
-                mvCool=1;
+                mvCool = 1;
             }
 
             if (sketch.keyIsDown(sketch.DOWN_ARROW)) {
                 currentTile = currentTile.down;
-                mvCool=1;
+                mvCool = 1;
             }
         } else {
             mvCool -= 0.1
         }
 
+        while(currentTile.special.length > 0) {
+            let currentFiend =currentTile.special.pop();
+            currentFiend.onWalk();
+        }
+
         let temp1 = getTilesEuclidean(11, currentTile.drleft.drleft.drleft.drleft.drleft.drup.drup.drup.drup.drup);
-        
+
         for (let x = 0; x < temp1.length; x++) {
             for (let y = 0; y < temp1[x].length; y++) {
                 sketch.noStroke();
                 sketch.fill(temp1[x][y].color);
                 sketch.rect(x * cubeSize, y * cubeSize, cubeSize, cubeSize);
-                if (temp1[x][y].special !== "🔲|Nothing") {
+                for (let item of temp1[x][y].special) {
                     sketch.noStroke();
-                    sketch.fill(temp1[x][y].scolor);
+                    sketch.fill(item.color);
                     sketch.rect(x * cubeSize + cubeSize / 4, y * cubeSize + cubeSize / 4, cubeSize / 2, cubeSize / 2);
                 }
-                if(temp1[x][y] == currentTile) {
+                if (temp1[x][y] == currentTile) {
                     sketch.stroke("#000000");
                     sketch.strokeWeight(2);
                     // sketch.fill("#ffffff");
