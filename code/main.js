@@ -8,6 +8,7 @@ import {
     makeGenMap,
     setNoiseMode
 } from "./worldGen";
+import Player from "./Player";
 
 setNoiseMode("loop");
 window.debugMode = false;
@@ -22,7 +23,10 @@ new p5(function (sketch) {
         upButton,
         downButton,
         leftButton,
-        rightButton;
+        rightButton,
+        player,
+        invx = 0,
+        invy = 0;
 
     let genSize = 64,
         showSize = 11,
@@ -30,16 +34,18 @@ new p5(function (sketch) {
 
     sketch.setup = function () {
         currentTile = makeGenMap(genSize, "earth");
-        let hellPortal = makeGenMap(genSize, "hell");
+        // let hellPortal = makeGenMap(genSize, "hell");
 
-        currentTile.up.down = hellPortal.down;
-        hellPortal.down.up = currentTile.up;
+        // currentTile.up.down = hellPortal.down;
+        // hellPortal.down.up = currentTile.up;
 
-        currentTile.up = hellPortal;
-        hellPortal.down = currentTile;
+        // currentTile.up = hellPortal;
+        // hellPortal.down = currentTile;
 
-        currentTile.color = "#442344";
-        hellPortal.color = "#442344";
+        // currentTile.color = "#442344";
+        // hellPortal.color = "#442344";
+
+        player = new Player();
 
 
         // currentTile.special = "🛥️|Boat";
@@ -56,7 +62,7 @@ new p5(function (sketch) {
         // currentTile.down.down.right.right.type = "⛰️|Mountains";
         // currentTile.down.down.right.right.right.type = "⛰️|Mountains";
 
-        sketch.createCanvas(showSize * cubeSize, showSize * cubeSize);
+        sketch.createCanvas(showSize * cubeSize + (11 * cubeSize) + (2 * cubeSize), Math.max(showSize * cubeSize, (11 * cubeSize)));
 
         //dom
         currentSpecial = html `<h1>Nothing</h1>`;
@@ -84,6 +90,7 @@ new p5(function (sketch) {
     }
 
     let mvCool = 0;
+    let invMvCool = 0;
 
     sketch.draw = function () {
         currentSpecial.textContent = currentTile.special;
@@ -97,22 +104,22 @@ new p5(function (sketch) {
             o `You win!`;
         }
         if (mvCool < 0) {
-            if (sketch.keyIsDown(sketch.LEFT_ARROW)) {
+            if (sketch.keyIsDown(65)) {
                 currentTile = currentTile.left;
                 mvCool = 1;
             }
 
-            if (sketch.keyIsDown(sketch.RIGHT_ARROW)) {
+            if (sketch.keyIsDown(68)) {
                 currentTile = currentTile.right;
                 mvCool = 1;
             }
 
-            if (sketch.keyIsDown(sketch.UP_ARROW)) {
+            if (sketch.keyIsDown(87)) {
                 currentTile = currentTile.up;
                 mvCool = 1;
             }
 
-            if (sketch.keyIsDown(sketch.DOWN_ARROW)) {
+            if (sketch.keyIsDown(83)) {
                 currentTile = currentTile.down;
                 mvCool = 1;
             }
@@ -120,9 +127,39 @@ new p5(function (sketch) {
             mvCool -= 0.1
         }
 
-        while(currentTile.special.length > 0) {
-            let currentFiend =currentTile.special.pop();
-            currentFiend.onWalk();
+        if (invMvCool < 0) {
+            if (sketch.keyIsDown(37)) {
+                invx--;
+                invMvCool = 1;
+            }
+
+            if (sketch.keyIsDown(39)) {
+                invx++;
+                invMvCool = 1;
+            }
+
+            if (sketch.keyIsDown(38)) {
+                invy--;
+                invMvCool = 1;
+            }
+
+            if (sketch.keyIsDown(40)) {
+                invy++;
+                invMvCool = 1;
+            }
+            invx = (invx + 11) % 11;
+            invy = (invy + 11) % 11;
+
+        } else {
+            invMvCool -= 0.1
+        }
+        if (sketch.keyIsDown(32)) {
+            while (currentTile.special.length > 0) {
+                let currentFiend = currentTile.special.pop();
+                currentFiend.onWalk({
+                    player
+                });
+            }
         }
 
         let temp1 = getTilesEuclidean(11, currentTile.drleft.drleft.drleft.drleft.drleft.drup.drup.drup.drup.drup);
@@ -146,5 +183,21 @@ new p5(function (sketch) {
                 }
             }
         }
+
+        let playerinv = player.inventory;
+
+        for (let x = 0; x < 11; x++) {
+            for (let y = 0; y < 11; y++) {
+                let currItem = playerinv.getItem(x + y * 11);
+                sketch.stroke("#000000");
+                sketch.strokeWeight(1);
+                sketch.fill(currItem.color);
+                sketch.rect(x * cubeSize + 11 * cubeSize, y * cubeSize, cubeSize, cubeSize);
+            }
+        }
+
+        sketch.noStroke();
+        sketch.fill("#000000");
+        sketch.rect(invx * cubeSize + cubeSize / 4 + 11 * cubeSize, invy * cubeSize + cubeSize / 4, cubeSize / 2, cubeSize / 2);
     }
 });

@@ -17,8 +17,12 @@ export default {
         0.95: {
             special: "💎|Treasure",
             color: "#DAA520",
-            onWalk(player) {
-
+            onWalk(utils) {
+                utils.player.inventory.addItem({
+                    onUse() {},
+                    empty: false,
+                    color: "#ff0000"
+                });
             },
         }
     },
@@ -40,6 +44,7 @@ export default {
                         workingTile.drdown.up = workingTile.drdown;
                         workingTile.drleft.right = workingTile.drleft;
                         workingTile.drright.left = workingTile.drright;
+                        workingTile.special = [];
 
                     }
 
@@ -50,11 +55,13 @@ export default {
                         workingTile.drdown.up = workingTile.drdown;
                         workingTile.drleft.right = workingTile.drleft;
                         workingTile.drright.left = workingTile.drright;
+                        workingTile.special = [];
                     }
 
                     if ((y > 1 && y < 5) && (x > 1 && x < 5)) {
                         workingTile.color = "#bc9364";
                         workingTile.type = "Wood Ceiling";
+                        workingTile.special = [];
                     }
 
 
