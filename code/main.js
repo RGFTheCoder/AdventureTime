@@ -1,4 +1,6 @@
 import "../lib/typedarray";
+import Item from "./Item";
+import Player from "./Player";
 import {
     getTilesEuclidean,
     html,
@@ -8,8 +10,7 @@ import {
     makeGenMap,
     setNoiseMode
 } from "./worldGen";
-import Player from "./Player";
-import Item from "./Item";
+import Tile from "./Tile";
 
 setNoiseMode("loop");
 window.debugMode = false;
@@ -19,6 +20,7 @@ new p5(function (sketch) {
     let currentTile,
         currentSpecial,
         currentBiome,
+        currentItemData,
         player,
         invx = 0,
         invy = 0;
@@ -62,6 +64,7 @@ new p5(function (sketch) {
         //dom
         currentSpecial = html `<h1>Nothing</h1>`;
         currentBiome = html `<h1>Ocean</h1>`;
+        currentItemData = html `<pre>PP</pre>`;
 
     }
 
@@ -71,8 +74,16 @@ new p5(function (sketch) {
     invSel.empty = true;
 
     sketch.draw = function () {
+        sketch.background("#000000");
+        player.step();
         currentSpecial.textContent = currentTile.special[0] ? currentTile.special[0].special : "Nothing";
         currentBiome.textContent = currentTile.type;
+        let itemText = "";
+        let currentItem = player.inventory.getItem(invx + invy * 11);
+        for (let i in currentItem) {
+            itemText += `${i}:${JSON.stringify(currentItem[i])} \n\n`;
+        }
+        currentItemData.textContent = itemText;
         // radar.textContent = currentTile.toStringSpe();
         // mapWorld.textContent = drawTileEuclidean(7, currentTile.left.left.left.up.up.up);
 
@@ -87,7 +98,9 @@ new p5(function (sketch) {
                 mvCool = 1;
                 for (let i = 0; i < currentTile.special.length; i++) {
                     currentTile.special[i].onWalk({
-                        player
+                        player,
+                        special: currentTile.special,
+                        id: i
                     });
                 }
             }
@@ -97,7 +110,9 @@ new p5(function (sketch) {
                 mvCool = 1;
                 for (let i = 0; i < currentTile.special.length; i++) {
                     currentTile.special[i].onWalk({
-                        player
+                        player,
+                        special: currentTile.special,
+                        id: i
                     });
                 }
             }
@@ -107,7 +122,9 @@ new p5(function (sketch) {
                 mvCool = 1;
                 for (let i = 0; i < currentTile.special.length; i++) {
                     currentTile.special[i].onWalk({
-                        player
+                        player,
+                        special: currentTile.special,
+                        id: i
                     });
                 }
             }
@@ -117,7 +134,9 @@ new p5(function (sketch) {
                 mvCool = 1;
                 for (let i = 0; i < currentTile.special.length; i++) {
                     currentTile.special[i].onWalk({
-                        player
+                        player,
+                        special: currentTile.special,
+                        id: i
                     });
                 }
             }
@@ -155,7 +174,9 @@ new p5(function (sketch) {
             while (currentTile.special.length > 0) {
                 let currentFiend = currentTile.special.pop();
                 currentFiend.onUse({
-                    player
+                    player,
+                    special: currentTile.special,
+                    id: -1
                 });
             }
         }
@@ -163,6 +184,18 @@ new p5(function (sketch) {
             if (sketch.keyIsDown(80)) {
                 invSel = player.inventory.swapItem(invx + invy * 11, invSel);
                 invMvCool = 1;
+            }
+        }
+
+        for (let i = 0; i < 10; i++) {
+            let keyCode = i + 48;
+
+            if (sketch.keyIsDown(keyCode)) {
+                player.inventory.getItem(i).use({
+                    player,
+                    id: i,
+                    Tile
+                })
             }
         }
 
@@ -203,5 +236,13 @@ new p5(function (sketch) {
         sketch.noStroke();
         sketch.fill("#000000");
         sketch.rect(invx * cubeSize + cubeSize / 4 + 11 * cubeSize, invy * cubeSize + cubeSize / 4, cubeSize / 2, cubeSize / 2);
+
+        sketch.noStroke();
+        sketch.fill("#ee6666");
+        sketch.rect(22 * cubeSize, 0, cubeSize / 2, 11 * cubeSize * (player.getProp("hp") / player.maxhp));
+
+        sketch.noStroke();
+        sketch.fill("#6666ee");
+        sketch.rect(22.5 * cubeSize, 0, cubeSize / 2, 11 * cubeSize * (player.getProp("mp") / player.maxmp));
     }
 });

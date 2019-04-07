@@ -1,4 +1,5 @@
-import Item from "../Item";
+import Enemy from "../specials/Enemy";
+import Treasure from "../specials/Treasure";
 
 export default {
     type: {
@@ -16,28 +17,8 @@ export default {
         }
     },
     special: {
-        0.95: {
-            special: "Treasure",
-            color: "#DAA520",
-            onWalk(utils) {},
-            onUse(utils) {
-                let item = new Item();
-                item.color = "#ff0000";
-                utils.player.inventory.addItem(item);
-            },
-        },
-        0.90: {
-            special: "Enemy",
-            color: "#CA4520",
-            onWalk(utils) {
-                let item = new Item();
-                item.color = "#ff0000";
-                utils.player.inventory.addItem(item);
-            },
-            onUse(utils) {
-
-            },
-        }
+        0.95: Treasure,
+        0.90: Enemy,
     },
     z: 0,
     sudo(util) {},

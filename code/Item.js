@@ -8,6 +8,8 @@ export default class Item {
         this.useCooldown = 0;
         this.maxCooldown = 10;
         this.name = "???";
+        this.modifiers = {};
+        this.enchantments = [];
 
         this.step = setInterval(() => {
             if (this.useCooldown > 0) {
@@ -39,5 +41,13 @@ export default class Item {
             }
             onStep();
         }, 1000 / 10);
+    }
+
+    getProp(name) {
+        let out = this.modifiers[name]||0;
+        for (let i in this.enchantments) {
+            out += this.enchantments[i].getProp(name)||0;
+        }
+        return out;
     }
 }

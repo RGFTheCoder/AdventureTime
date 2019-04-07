@@ -124,7 +124,7 @@ export function makeGenMap(size, generator) {
             let rng = Math.random();
             for (let i in gen.special) {
                 if (rng > i) {
-                    tempBuffer[x][y].special.push(gen.special[i]);
+                    tempBuffer[x][y].special.push(new gen.special[i]());
                     break;
                 }
             }

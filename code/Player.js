@@ -1,12 +1,16 @@
 import Inventory from "./Inventory";
+import Entity from "./Entity";
 
-export default class Player{
+export default class Player extends Entity {
     constructor() {
-        this.hp = 100;
-        this.maxhp = 100;
-        this.mp = 100;
-        this.maxmp = 100;
-        this.str = 2;
-        this.inventory = new Inventory(11**2);
+        super();
+        this.mp = Math.floor(Math.random() * 50) + 50;
+        this.maxmp = this.mp;
+        this.inventory = new Inventory(11 ** 2);
+        this.regen.push("mp");
+    }
+
+    getProp(name) {
+        return (this[name] || 0) + this.inventory.getItem(0).getProp(name);
     }
 }
