@@ -25,7 +25,7 @@ export default class Entity {
     }
   }
 
-  getProp(name) {
+  getProp(name: string) {
     return this[name];
   }
 }

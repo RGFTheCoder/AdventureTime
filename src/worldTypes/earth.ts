@@ -1,5 +1,6 @@
 import Enemy from "../specials/Enemy";
 import TerribleTreasure from "../specials/treasures/terrible";
+import Tile from "../Tile";
 
 export default {
   type: {
@@ -28,12 +29,22 @@ export default {
     0.97: Enemy
   },
   z: 0,
-  sudo(util) {},
+  sudo(util: {
+    Tile(): Tile,
+    makeBlankMap(size:number): Tile[][],
+    tempBuffer: Tile[][],
+    getTilesEuclidean(size:number,tile:Tile): Tile[][]
+  }) {},
   structures: [
     {
       //house
       rarity: 1 / 16,
-      function(util) {
+      function(util:{
+        Tile:Function,
+        makeBlankMap(size: number):Tile[][],
+        genTile: Tile,
+        getTilesEuclidean(size:number, tile:Tile):Tile[][]
+      }) {
         let working = util.getTilesEuclidean(
           7,
           util.genTile.drleft.drleft.drleft.drup.drup.drup

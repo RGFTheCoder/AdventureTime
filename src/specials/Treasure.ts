@@ -2,9 +2,10 @@ import Special from "../Special";
 import Item from "../Item";
 import Enchantment from "../Enchantment";
 import Consumable from "../Consumable";
+import Player from "../Player";
 
 export default class Treasure extends Special {
-  constructor(itemList) {
+  constructor(itemList: Item[]) {
     super({
       special: "Treasure",
       color: "#DAA520"
@@ -84,7 +85,11 @@ export default class Treasure extends Special {
       })
     ];
 
-    this.onUse = function(utils) {
+    this.onUse = function(utils: {
+      player: Player;
+      special: Special[];
+      id: number;
+    }) {
       let item = itemList[Math.floor(Math.random() * itemList.length)];
       utils.player.inventory.addItem(item);
     };

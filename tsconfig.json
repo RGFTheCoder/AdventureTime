@@ -4,14 +4,18 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "outDir": "./dist/",
         "rootDir": "./src/",
         "types": [
             "p5"
-         ],
-         "typeRoots": [
+        ],
+        "typeRoots": [
             "node_modules/@types"
-         ]
+        ],
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true
     }
 }

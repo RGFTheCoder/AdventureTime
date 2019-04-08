@@ -1,10 +1,10 @@
-import Special from "../Special";
 import Entity from "../Entity";
-import TerribleTreasure from "./treasures/terrible";
+import Special from "../Special";
+import AmazingTreasure from "./treasures/amazing";
+import BadTreasure from "./treasures/bad";
 import GoodTreasure from "./treasures/good";
 import BasicTreasure from "./treasures/ok";
-import BadTreasure from "./treasures/bad";
-import AmazingTreasure from "./treasures/amazing";
+import TerribleTreasure from "./treasures/terrible";
 export default class Enemy extends Special {
     constructor() {
         super({

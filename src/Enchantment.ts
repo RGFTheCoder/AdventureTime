@@ -1,14 +1,20 @@
 import Item from "./Item";
+import Player from "./Player";
+import Special from "./Special";
 
 export default class Enchantment extends Item {
   private mpUsage: number;
-  constructor(addProps) {
+  constructor(addProps: object) {
     addProps = addProps || {};
     super({});
 
     this.mpUsage = 50 + Math.round(Math.random() * 20) - 10;
     this.props.push("mpUsage");
-    this.onUse = function(utils) {
+    this.onUse = function(utils: {
+      player: Player;
+      special: Special[];
+      id: number;
+    }) {
       if (utils.player.mp > this.mpUsage) {
         utils.player.inventory.getItem(0).enchantments.push(this);
         let blank: Item = new Item();
@@ -18,8 +24,6 @@ export default class Enchantment extends Item {
       }
     };
 
-    for (let i in addProps) {
-      this[i] = addProps[i];
-    }
+    Object.assign(this, addProps);
   }
 }

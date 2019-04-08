@@ -14,9 +14,7 @@ export default class Enchantment extends Item {
                 utils.player.mp -= this.mpUsage;
             }
         };
-        for (let i in addProps) {
-            this[i] = addProps[i];
-        }
+        Object.assign(this, addProps);
     }
 }
 //# sourceMappingURL=Enchantment.js.map

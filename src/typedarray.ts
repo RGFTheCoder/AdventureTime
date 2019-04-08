@@ -51,7 +51,7 @@
   var MAX_ARRAY_LENGTH = 1e5;
 
   // Approximations of internal ECMAScript conversion functions
-  function Type(v) {
+  function Type(v: any) {
     switch (typeof v) {
       case "undefined":
         return "undefined";
@@ -67,24 +67,24 @@
   }
 
   // Class returns internal [[Class]] property, used to avoid cross-frame instanceof issues:
-  function Class(v) {
+  function Class(v: Function) {
     return Object.prototype.toString.call(v).replace(/^\[object *|\]$/g, "");
   }
 
-  function IsCallable(o) {
+  function IsCallable(o: any) {
     return typeof o === "function";
   }
 
-  function ToObject(v) {
+  function ToObject(v: any) {
     if (v === null || v === undefined) throw TypeError();
     return Object(v);
   }
 
-  function ToInt32(v) {
+  function ToInt32(v: any) {
     return v >> 0;
   }
 
-  function ToUint32(v) {
+  function ToUint32(v: any) {
     return v >>> 0;
   }
 
@@ -134,18 +134,18 @@
 
   // ES5: Make obj[index] an alias for obj._getter(index)/obj._setter(index, value)
   // for index in 0 ... obj.length
-  function makeArrayAccessors(obj) {
+  function makeArrayAccessors(obj: any) {
     if ("TYPED_ARRAY_POLYFILL_NO_ARRAY_ACCESSORS" in global) return;
 
     if (obj.length > MAX_ARRAY_LENGTH)
       throw RangeError("Array too large for polyfill");
 
-    function makeArrayAccessor(index) {
+    function makeArrayAccessor(index: number) {
       Object.defineProperty(obj, index, {
         get: function() {
           return obj._getter(index);
         },
-        set: function(v) {
+        set: function(v: any) {
           obj._setter(index, v);
         },
         enumerable: true,
@@ -163,79 +163,79 @@
   //    pack<Type>()   - take a number (interpreted as Type), output a byte array
   //    unpack<Type>() - take a byte array, output a Type-like number
 
-  function as_signed(value, bits) {
+  function as_signed(value:number, bits:number) {
     var s = 32 - bits;
     return (value << s) >> s;
   }
 
-  function as_unsigned(value, bits) {
+  function as_unsigned(value:number, bits:number) {
     var s = 32 - bits;
     return (value << s) >>> s;
   }
 
-  function packI8(n) {
+  function packI8(n:number) {
     return [n & 0xff];
   }
 
-  function unpackI8(bytes) {
+  function unpackI8(bytes: number[]) {
     return as_signed(bytes[0], 8);
   }
 
-  function packU8(n) {
+  function packU8(n:number) {
     return [n & 0xff];
   }
 
-  function unpackU8(bytes) {
+  function unpackU8(bytes:number[]) {
     return as_unsigned(bytes[0], 8);
   }
 
-  function packU8Clamped(n) {
+  function packU8Clamped(n:number) {
     n = round(Number(n));
     return [n < 0 ? 0 : n > 0xff ? 0xff : n & 0xff];
   }
 
-  function packI16(n) {
+  function packI16(n:number) {
     return [n & 0xff, (n >> 8) & 0xff];
   }
 
-  function unpackI16(bytes) {
+  function unpackI16(bytes:number[]) {
     return as_signed((bytes[1] << 8) | bytes[0], 16);
   }
 
-  function packU16(n) {
+  function packU16(n:number) {
     return [n & 0xff, (n >> 8) & 0xff];
   }
 
-  function unpackU16(bytes) {
+  function unpackU16(bytes:number[]) {
     return as_unsigned((bytes[1] << 8) | bytes[0], 16);
   }
 
-  function packI32(n) {
+  function packI32(n:number) {
     return [n & 0xff, (n >> 8) & 0xff, (n >> 16) & 0xff, (n >> 24) & 0xff];
   }
 
-  function unpackI32(bytes) {
+  function unpackI32(bytes:number[]) {
     return as_signed(
       (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0],
       32
     );
   }
 
-  function packU32(n) {
+  function packU32(n:number) {
     return [n & 0xff, (n >> 8) & 0xff, (n >> 16) & 0xff, (n >> 24) & 0xff];
   }
 
-  function unpackU32(bytes) {
+  function unpackU32(bytes:number[]) {
     return as_unsigned(
       (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0],
       32
     );
   }
 
-  function packIEEE754(v, ebits, fbits) {
+  function packIEEE754(v:number, ebits:number, fbits:number) {
     var bias = (1 << (ebits - 1)) - 1;
 
-    function roundToEven(n) {
+    function roundToEven(n:number) {
       var w = floor(n),
         f = n - w;
       if (f < 0.5) return w;
@@ -318,7 +318,7 @@
     return bytes;
   }
 
-  function unpackIEEE754(bytes, ebits, fbits) {
+  function unpackIEEE754(bytes:number[], ebits:number, fbits:number) {
     // Bytes to bits
     var bits = [],
       i,
@@ -360,19 +360,19 @@
     }
   }
 
-  function unpackF64(b) {
+  function unpackF64(b:number[]) {
     return unpackIEEE754(b, 11, 52);
   }
 
-  function packF64(v) {
+  function packF64(v: any) {
     return packIEEE754(v, 11, 52);
   }
 
-  function unpackF32(b) {
+  function unpackF32(b:number[]) {
     return unpackIEEE754(b, 8, 23);
   }
 
-  function packF32(v) {
+  function packF32(v: any) {
     return packIEEE754(v, 8, 23);
   }
 
@@ -381,7 +381,7 @@
   //
 
   (function() {
-    function ArrayBuffer(length) {
+    function ArrayBuffer(length:number) {
       length = ToInt32(length);
       if (length < 0)
         throw RangeError(

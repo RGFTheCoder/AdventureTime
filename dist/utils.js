@@ -1,7 +1,13 @@
 export function html(code) {
     let tempElem = document.createElement("div");
     tempElem.innerHTML = code + "";
-    let elem = tempElem.firstElementChild;
+    let elem;
+    if (tempElem.firstElementChild !== null) {
+        elem = tempElem.firstElementChild;
+    }
+    else {
+        elem = document.createElement("div");
+    }
     document.body.appendChild(elem);
     return elem;
 }

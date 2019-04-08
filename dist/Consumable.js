@@ -11,9 +11,7 @@ export default class Consumable extends Item {
             blank.empty = true;
             utils.player.inventory.setItem(utils.id, blank);
         };
-        for (let i in addProps) {
-            this[i] = addProps[i];
-        }
+        Object.assign(this, addProps);
     }
 }
 //# sourceMappingURL=Consumable.js.map

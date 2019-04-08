@@ -1,11 +1,16 @@
 import Item from "./Item";
+import Player from "./Player";
 
 export default class Consumable extends Item {
-  constructor(addProps) {
+  constructor(addProps: any) {
     addProps = addProps || {};
     super({});
 
-    this.onUse = function(utils) {
+    this.onUse = function(utils: {
+      player: Player;
+      id: number;
+      Tile: Function;
+    }) {
       for (let i in this.props) {
         utils.player[this.props[i]] += this.getProp(this.props[i]);
       }
@@ -14,8 +19,6 @@ export default class Consumable extends Item {
       utils.player.inventory.setItem(utils.id, blank);
     };
 
-    for (let i in addProps) {
-      this[i] = addProps[i];
-    }
+    Object.assign(this, addProps);
   }
 }

@@ -106,9 +106,7 @@ export function makeGenMap(size, generator) {
             let pieces = Object.keys(gen.type).sort((a, b) => parseFloat(b) - parseFloat(a));
             for (let i of pieces) {
                 if (ns > parseFloat(i)) {
-                    for (let j in gen.type[i]) {
-                        tempBuffer[x][y][j] = gen.type[i][j];
-                    }
+                    Object.assign(tempBuffer[x][y], gen.type[i]);
                     break;
                 }
             }

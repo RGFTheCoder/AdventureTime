@@ -130,10 +130,7 @@ export function makeGenMap(size: number, generator: string) {
       );
       for (let i of pieces) {
         if (ns > parseFloat(i)) {
-
-          for (let j in gen.type[i]) {
-            tempBuffer[x][y][j] = gen.type[i][j];
-          }
+          Object.assign(tempBuffer[x][y], gen.type[i]);
           break;
         }
       }

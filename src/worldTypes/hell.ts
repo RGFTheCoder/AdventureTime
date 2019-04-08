@@ -1,3 +1,5 @@
+import Tile from "../Tile";
+
 //convert old to new with (x-0.5)/2+0.5
 
 export default {
@@ -26,11 +28,21 @@ export default {
     }
   },
   z: 1,
-  sudo(util) {},
+  sudo(util: {
+    Tile(): Tile,
+    makeBlankMap(size:number): Tile[][],
+    tempBuffer: Tile[][],
+    getTilesEuclidean(size:number,tile:Tile): Tile[][]
+  }) {},
   structures: [
     {
       rarity: 0,
-      function(util) {
+      function(util:{
+        Tile:Function,
+        makeBlankMap(size: number):Tile[][],
+        genTile: Tile,
+        getTilesEuclidean(size:number, tile:Tile):Tile[][]
+      }) {
         console.log(util);
       }
     }

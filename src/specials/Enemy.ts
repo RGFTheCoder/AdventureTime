@@ -1,10 +1,11 @@
-import Special from "../Special";
 import Entity from "../Entity";
-import TerribleTreasure from "./treasures/terrible";
+import Special from "../Special";
+import AmazingTreasure from "./treasures/amazing";
+import BadTreasure from "./treasures/bad";
 import GoodTreasure from "./treasures/good";
 import BasicTreasure from "./treasures/ok";
-import BadTreasure from "./treasures/bad";
-import AmazingTreasure from "./treasures/amazing";
+import TerribleTreasure from "./treasures/terrible";
+import Player from "../Player";
 
 export default class Enemy extends Special {
   private entity: Entity;
@@ -14,7 +15,11 @@ export default class Enemy extends Special {
       color: "#CA4520"
     });
     this.entity = new Entity();
-    this.onWalk = function(utils) {
+    this.onWalk = function(utils: {
+      player: Player;
+      special: Special[];
+      id: number;
+    }) {
       let player = utils.player;
       while (player.getProp("hp") > 0 && this.entity.getProp("hp") > 0) {
         this.entity.hp -= player.getProp("str");

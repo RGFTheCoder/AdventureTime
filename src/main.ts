@@ -14,9 +14,22 @@ declare global {
   interface Window {
     debugMode: boolean;
   }
+
+  interface Object {
+    assign(target: object, source: object): object;
+    __defineGetter__(prop: any, getter: Function): any;
+    __defineSetter__(prop: any, setter: Function): any;
+  }
 }
 
 window.debugMode = false;
+
+Object.assign = function(target: object, source: object) {
+  for (let i in source) {
+    target[i] = source[i];
+  }
+  return target;
+};
 
 new p5(function(sketch: p5) {
   let currentTile: Tile,
@@ -190,11 +203,13 @@ new p5(function(sketch: p5) {
     if (sketch.keyIsDown(32)) {
       while (currentTile.special.length > 0) {
         let currentFiend = currentTile.special.pop();
-        currentFiend.onUse({
-          player,
-          special: currentTile.special,
-          id: -1
-        });
+        if (typeof currentFiend !== "undefined") {
+          currentFiend.onUse({
+            player,
+            special: currentTile.special,
+            id: -1
+          });
+        }
       }
     }
     if (sketch.keyIsDown(13)) {

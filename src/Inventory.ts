@@ -4,7 +4,7 @@ export default class Inventory {
   private data: Item[];
   private size: number;
 
-  constructor(size) {
+  constructor(size: number) {
     this.data = [];
     this.size = size;
     for (let i = 0; i < size; i++) {
@@ -24,21 +24,21 @@ export default class Inventory {
     return out;
   }
 
-  getItem(id) {
+  getItem(id: number) {
     return this.data[(id + this.size) % this.size];
   }
 
-  setItem(id, newItem) {
+  setItem(id: number, newItem: Item) {
     this.data[(id + this.size) % this.size] = newItem;
   }
 
-  swapItem(id, newItem) {
+  swapItem(id: number, newItem: Item) {
     let old = this.data[(id + this.size) % this.size];
     this.data[(id + this.size) % this.size] = newItem;
     return old;
   }
 
-  addItem(item) {
+  addItem(item: Item) {
     let i = 0;
     while (i < this.size && !this.data[i].empty) i++;
     if (i == this.size) {

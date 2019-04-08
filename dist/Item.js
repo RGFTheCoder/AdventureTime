@@ -17,9 +17,7 @@ export default class Item {
             }
             this.onStep();
         }, 1000 / 10);
-        for (let i in addProps) {
-            this[i] = addProps[i];
-        }
+        Object.assign(this, addProps);
     }
     use(utils) {
         if (this.useCooldown <= 0) {
@@ -28,8 +26,8 @@ export default class Item {
         }
     }
     delete() {
-        this.onUse = utils => { };
-        this.onStep = () => { };
+        this.onUse = (utils) => { };
+        this.onStep = (utils) => { };
         this.empty = false;
         this.color = "#cccccc";
         this.useCooldown = 0;

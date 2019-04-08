@@ -1,16 +1,23 @@
-export function html(code): Element {
+import Tile from "./Tile";
+
+export function html(code: string): Element {
   let tempElem = document.createElement("div");
   tempElem.innerHTML = code + "";
-  let elem = tempElem.firstElementChild;
+  let elem: Element;
+  if (tempElem.firstElementChild !== null) {
+    elem = tempElem.firstElementChild;
+  } else {
+    elem = document.createElement("div");
+  }
   document.body.appendChild(elem);
   return elem;
 }
 
-export function o(text) {
+export function o(text: string) {
   return console.log(...text);
 }
 
-export function drawTileEuclidean(size, tile) {
+export function drawTileEuclidean(size: number, tile: Tile) {
   let out = [];
   for (let i = 0; i < size; i++) {
     out.push(drawTileStrip(size, tile));
@@ -24,7 +31,7 @@ export function drawTileEuclidean(size, tile) {
     .join("\n");
 }
 
-function drawTileStrip(size, tile) {
+function drawTileStrip(size: number, tile: Tile) {
   let out = [];
   for (let i = 0; i < size; i++) {
     out.push(tile);
@@ -33,7 +40,7 @@ function drawTileStrip(size, tile) {
   return out;
 }
 
-export function getTilesEuclidean(size, tile) {
+export function getTilesEuclidean(size: number, tile: Tile) {
   let out = [];
   for (let i = 0; i < size; i++) {
     out.push(drawTileStrip2(size, tile));
@@ -43,7 +50,7 @@ export function getTilesEuclidean(size, tile) {
   return out;
 }
 
-function drawTileStrip2(size, tile) {
+function drawTileStrip2(size: number, tile: Tile) {
   let out = [];
   for (let i = 0; i < size; i++) {
     out.push(tile);

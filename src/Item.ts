@@ -1,4 +1,5 @@
 import Enchantment from "./Enchantment";
+import Player from "./Player";
 
 export default class Item {
   onUse: Function;
@@ -33,12 +34,14 @@ export default class Item {
       this.onStep();
     }, 1000 / 10);
 
-    for (let i in addProps) {
-      this[i] = addProps[i];
-    }
+    Object.assign(this,addProps);
   }
 
-  use(utils) {
+  use(utils: {
+    player: Player;
+    id: number;
+    Tile: Function;
+  }) {
     if (this.useCooldown <= 0) {
       this.useCooldown = this.maxCooldown;
       this.onUse(utils);
@@ -46,8 +49,16 @@ export default class Item {
   }
 
   delete() {
-    this.onUse = utils => {};
-    this.onStep = () => {};
+    this.onUse = (utils: {
+      player: Player;
+      id: number;
+      Tile: Function;
+    }) => {};
+    this.onStep = (utils: {
+      player: Player;
+      id: number;
+      Tile: Function;
+    }) => {};
     this.empty = false;
     this.color = "#cccccc";
     this.useCooldown = 0;
@@ -61,7 +72,7 @@ export default class Item {
     }, 1000 / 10);
   }
 
-  getProp(name) {
+  getProp(name:string) {
     let out = this.modifiers[name] || this[name] || 0;
     for (let i in this.enchantments) {
       out += this.enchantments[i].getProp(name) || 0;

@@ -6,6 +6,12 @@ import Tile from "./Tile";
 import "../libs/p5.min.js";
 setNoiseMode("loop");
 window.debugMode = false;
+Object.assign = function (target, source) {
+    for (let i in source) {
+        target[i] = source[i];
+    }
+    return target;
+};
 new p5(function (sketch) {
     let currentTile, currentSpecial, playerInfo, currentItemData, player, invx = 0, invy = 0;
     let genSize = 256, showSize = 11, cubeSize = 32;
@@ -120,11 +126,13 @@ new p5(function (sketch) {
         if (sketch.keyIsDown(32)) {
             while (currentTile.special.length > 0) {
                 let currentFiend = currentTile.special.pop();
-                currentFiend.onUse({
-                    player,
-                    special: currentTile.special,
-                    id: -1
-                });
+                if (typeof currentFiend !== "undefined") {
+                    currentFiend.onUse({
+                        player,
+                        special: currentTile.special,
+                        id: -1
+                    });
+                }
             }
         }
         if (sketch.keyIsDown(13)) {
