@@ -1,0 +1,17 @@
+{
+  "name": "adventuretime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/p5": "^0.7.2",
+    "typescript": "^3.4.2"
+  },
+  "scripts": {
+    "test": "start index.html"
+  },
+  "author": "",
+  "license": "ISC"
+}
