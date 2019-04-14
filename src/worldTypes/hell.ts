@@ -29,19 +29,19 @@ export default {
   },
   z: 1,
   sudo(util: {
-    Tile(): Tile,
-    makeBlankMap(size:number): Tile[][],
-    tempBuffer: Tile[][],
-    getTilesEuclidean(size:number,tile:Tile): Tile[][]
+    Tile(): Tile;
+    makeBlankMap(size: number): Tile[][];
+    tempBuffer: Tile[][];
+    getTilesEuclidean(size: number, tile: Tile): Tile[][];
   }) {},
   structures: [
     {
       rarity: 0,
-      function(util:{
-        Tile:Function,
-        makeBlankMap(size: number):Tile[][],
-        genTile: Tile,
-        getTilesEuclidean(size:number, tile:Tile):Tile[][]
+      function(util: {
+        Tile: Function;
+        makeBlankMap(size: number): Tile[][];
+        genTile: Tile;
+        getTilesEuclidean(size: number, tile: Tile): Tile[][];
       }) {
         console.log(util);
       }

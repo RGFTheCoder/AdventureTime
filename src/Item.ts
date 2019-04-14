@@ -34,14 +34,10 @@ export default class Item {
       this.onStep();
     }, 1000 / 10);
 
-    Object.assign(this,addProps);
+    Object.assign(this, addProps);
   }
 
-  use(utils: {
-    player: Player;
-    id: number;
-    Tile: Function;
-  }) {
+  use(utils: { player: Player; id: number; Tile: Function }) {
     if (this.useCooldown <= 0) {
       this.useCooldown = this.maxCooldown;
       this.onUse(utils);
@@ -49,16 +45,8 @@ export default class Item {
   }
 
   delete() {
-    this.onUse = (utils: {
-      player: Player;
-      id: number;
-      Tile: Function;
-    }) => {};
-    this.onStep = (utils: {
-      player: Player;
-      id: number;
-      Tile: Function;
-    }) => {};
+    this.onUse = (utils: { player: Player; id: number; Tile: Function }) => {};
+    this.onStep = (utils: { player: Player; id: number; Tile: Function }) => {};
     this.empty = false;
     this.color = "#cccccc";
     this.useCooldown = 0;
@@ -72,7 +60,7 @@ export default class Item {
     }, 1000 / 10);
   }
 
-  getProp(name:string) {
+  getProp(name: string) {
     let out = this.modifiers[name] || this[name] || 0;
     for (let i in this.enchantments) {
       out += this.enchantments[i].getProp(name) || 0;

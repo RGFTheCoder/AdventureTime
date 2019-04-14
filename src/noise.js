@@ -1,4 +1,4 @@
-var SimplexNoise = function(r) {
+var SimplexNoise = function (r) {
   if (r == undefined) r = Math;
   this.grad3 = [
     [1, 1, 0],
@@ -94,11 +94,11 @@ var SimplexNoise = function(r) {
   ];
 };
 
-SimplexNoise.prototype.dot = function(g, x, y) {
+SimplexNoise.prototype.dot = function (g, x, y) {
   return g[0] * x + g[1] * y;
 };
 
-SimplexNoise.prototype.noise = function(xin, yin) {
+SimplexNoise.prototype.noise = function (xin, yin) {
   var n0, n1, n2; // Noise contributions from the three corners
   // Skew the input space to determine which simplex cell we're in
   var F2 = 0.5 * (Math.sqrt(3.0) - 1.0);
@@ -160,7 +160,7 @@ SimplexNoise.prototype.noise = function(xin, yin) {
 };
 
 // 3D simplex noise
-SimplexNoise.prototype.noise3d = function(xin, yin, zin) {
+SimplexNoise.prototype.noise3d = function (xin, yin, zin) {
   var n0, n1, n2, n3; // Noise contributions from the four corners
   // Skew the input space to determine which simplex cell we're in
   var F3 = 1.0 / 3.0;

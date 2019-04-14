@@ -22,7 +22,7 @@ export default {
     // 0.995: AmazingTreasure,
     // 0.990: GoodTreasure,
     // 0.985: BasicTreasure,
-    // 0.980: BadTreasure,    
+    // 0.980: BadTreasure,
     // 0.975: TerribleTreasure,
     0.985: TerribleTreasure,
     // 0.96: Enemy
@@ -30,20 +30,20 @@ export default {
   },
   z: 0,
   sudo(util: {
-    Tile(): Tile,
-    makeBlankMap(size:number): Tile[][],
-    tempBuffer: Tile[][],
-    getTilesEuclidean(size:number,tile:Tile): Tile[][]
+    Tile(): Tile;
+    makeBlankMap(size: number): Tile[][];
+    tempBuffer: Tile[][];
+    getTilesEuclidean(size: number, tile: Tile): Tile[][];
   }) {},
   structures: [
     {
       //house
       rarity: 1 / 16,
-      function(util:{
-        Tile:Function,
-        makeBlankMap(size: number):Tile[][],
-        genTile: Tile,
-        getTilesEuclidean(size:number, tile:Tile):Tile[][]
+      function(util: {
+        Tile: Function;
+        makeBlankMap(size: number): Tile[][];
+        genTile: Tile;
+        getTilesEuclidean(size: number, tile: Tile): Tile[][];
       }) {
         let working = util.getTilesEuclidean(
           7,

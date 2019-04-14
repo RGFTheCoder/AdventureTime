@@ -15,7 +15,7 @@ export default class Player extends Entity {
     this.props.push("maxmp");
   }
 
-  getProp(name:string) {
+  getProp(name: string) {
     return (this[name] || 0) + this.inventory.getItem(0).getProp(name);
   }
 }

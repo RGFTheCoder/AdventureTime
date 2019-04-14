@@ -1,6 +1,6 @@
 import Tile from "./Tile";
 
-export function html(code: string): Element {
+export function html(code: TemplateStringsArray): Element {
   let tempElem = document.createElement("div");
   tempElem.innerHTML = code + "";
   let elem: Element;

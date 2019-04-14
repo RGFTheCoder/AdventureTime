@@ -5,7 +5,7 @@ export default class Special {
   color: string;
   onUse: Function;
   onWalk: Function;
-  constructor(object:{special:string,color:string}) {
+  constructor(object: { special: string; color: string }) {
     this.special = object.special;
     this.color = object.color;
     this.onUse = (utils: {

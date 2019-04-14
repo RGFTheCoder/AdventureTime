@@ -1,13 +1,10 @@
 import Tile from "./Tile";
-import Noise from "./noise";
-const noise = new Noise(Math);
 import NoiseT from "../libs/simplex-noise";
 const simplex = new NoiseT();
-console.log(noise);
 import generators from "./worldTypes/main";
 import { getTilesEuclidean } from "./utils";
 
-export function makeBlankMap(size) {
+export function makeBlankMap(size: number) {
   size = size || 16;
 
   let tempBuffer: Tile[][] = [];
@@ -34,7 +31,7 @@ export function makeBlankMap(size) {
   return tempBuffer;
 }
 
-function wrapX(x, size) {
+function wrapX(x: number, size: number) {
   let percent = x / size;
 
   if (percent > 0.75) {
@@ -60,7 +57,7 @@ function wrapX(x, size) {
   }
 }
 
-function wrapXSin(x, y, size) {
+function wrapXSin(x: number, y: number, size: number) {
   let ysin = Math.sin((y / size) * Math.PI);
   let radians = (x / size) * 2 * Math.PI;
 
